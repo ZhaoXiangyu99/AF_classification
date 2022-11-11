@@ -1,0 +1,1 @@
+python -W ignore train.py --cuda_devices "0" --epochs 100 --batch_size 48 --physio_net --dataset_path "data/training2017/" --network_config "ECGCNN_M" --two_classes --challange

@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Diese Datei sollte nicht verändert werden und wird von uns gestellt und zurückgesetzt.
-Skript testet das neu trainierte Modell
-@author: Maurice Rohr
-"""
-
-from predict import predict_labels
+from predict import predict_labels, predict_my_model
 from wettbewerb import load_references, save_predictions
 
 if __name__ == '__main__':
     ecg_leads, ecg_labels, fs, ecg_names = load_references(
-        '../test/')  # Importiere EKG-Dateien, zugehörige Diagnose, Sampling-Frequenz (Hz) und Name                                                # Sampling-Frequenz 300 Hz
+        './test/')  # 导入心电图文件、相关诊断、采样频率 (Hz) 和名称                                                #采样频率 300 Hz
 
     predictions = predict_labels(ecg_leads, fs, ecg_names, use_pretrained=False)
 
-    save_predictions(predictions)  # speichert Prädiktion in CSV Datei
+    save_predictions(predictions)  # 将预测保存在 CSV 文件中

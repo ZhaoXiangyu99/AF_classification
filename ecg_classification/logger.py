@@ -11,7 +11,7 @@ class Logger(object):
     """
 
     def __init__(self,
-                 experiment_path: str = os.path.join(os.getcwd(), "experiments",
+                 experiment_path: str = os.path.join(os.getcwd(), "my_experiments",
                                                      datetime.now().strftime("%d_%m_%Y__%H_%M_%S")),
                  experiment_path_extension: str = "",
                  path_metrics: str = "metrics",

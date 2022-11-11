@@ -1,0 +1,1 @@
+python -W ignore train.py --cuda_devices "0" --epochs 100 --batch_size 24 --physio_net --dataset_path "data/training2017/" --network_config "ECGCNN_XL" --load_network "my_experiments/09_11_2022__15_04_15ECGCNN_XL_physio_net_dataset/models/20.pt"

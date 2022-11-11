@@ -5,39 +5,45 @@ import pandas as pd
 
 def score():
     if not os.path.exists("PREDICTIONS.csv"):
-        sys.exit("Es gibt keine Predictions")
+        sys.exit("No predictions.csv")
 
     if not os.path.exists("../test/REFERENCE.csv"):
-        sys.exit("Es gibt keine Ground Truth")
+        sys.exit("No Reference.csv")
 
-    df_pred = pd.read_csv("PREDICTIONS.csv", header=None)  # Klassifikationen
-    df_gt = pd.read_csv("../test/REFERENCE.csv", header=None)  # Wahrheit
+    df_pred = pd.read_csv("PREDICTIONS.csv", header=None)  # 预测的csv文件
+    df_gt = pd.read_csv("../test/REFERENCE.csv", header=None)  # 真实的Reference文件
 
     N_files = df_gt.shape[0]  # Anzahl an Datenpunkten
 
-    ## für normalen F1-Score
-    TP = 0  # Richtig Positive
-    TN = 0  # Richtig Negative
-    FP = 0  # Falsch Positive
-    FN = 0  # Falsch Negative
+    ## normalize F1-Score
+    TP = 0  # True Positive
+    TN = 0  # True Negative
+    FP = 0  # False Positive
+    FN = 0  # False Negative
 
-    ## für Multi-Class-F1
-    Nn = 0  # Wahrheit ist normal, klassifiziert als normal
-    Na = 0  # Wahrheit ist normal, klassifiziert als Vorhofflimmern
-    No = 0  # Wahrheit ist normal, klassifiziert als anderer Rhythmus
-    Np = 0  # Wahrheit ist normal, klassifiziert als unbrauchbar
-    An = 0  # Wahrheit ist Vorhofflimmern, klassifiziert als normal
-    Aa = 0  # Wahrheit ist Vorhofflimmern, klassifiziert als Vorhofflimmern
-    Ao = 0  # Wahrheit ist Vorhofflimmern, klassifiziert als anderer Rhythmus
-    Ap = 0  # Wahrheit ist Vorhofflimmern, klassifiziert als unbrauchbar
-    On = 0  # Wahrheit ist anderer Rhythmus, klassifiziert als normal
-    Oa = 0  # Wahrheit ist anderer Rhythmus, klassifiziert als Vorhofflimmern
-    Oo = 0  # Wahrheit ist anderer Rhythmus, klassifiziert als anderer Rhythmus
-    Op = 0  # Wahrheit ist anderer Rhythmus, klassifiziert als unbrauchbar
-    Pn = 0  # Wahrheit ist unbrauchbar, klassifiziert als normal
-    Pa = 0  # Wahrheit ist unbrauchbar, klassifiziert als Vorhofflimmern
-    Po = 0  # Wahrheit ist unbrauchbar, klassifiziert als anderer Rhythmus
-    Pp = 0  # Wahrheit ist unbrauchbar, klassifiziert als unbrauchbar
+    ## Multi-Class-F1
+    '''
+        N : Normal
+        A : Atrial Fibrillation
+        P : Noisy
+        O : Other rhythm
+    '''
+    Nn = 0  # 真实是N,预测为N
+    Na = 0  # 真实是N,预测为A
+    No = 0  # 真实是N,预测为O
+    Np = 0  # 真实是N,预测为P
+    An = 0  # 真实是A,预测为N
+    Aa = 0  # 真实是A,预测为A
+    Ao = 0  # 真实是A,预测为O
+    Ap = 0  # 真实是A,预测为P
+    On = 0  # 真实是O,预测为N
+    Oa = 0  # 真实是O,预测为A
+    Oo = 0  # 真实是O,预测为O
+    Op = 0  # 真实是O,预测为P
+    Pn = 0  # 真实是P,预测为N
+    Pa = 0  # 真实是P,预测为A
+    Po = 0  # 真实是P,预测为O
+    Pp = 0  # 真实是P,预测为P
 
     for i in range(N_files):
         gt_name = df_gt[0][i]
@@ -46,7 +52,7 @@ def score():
         pred_indx = df_pred[df_pred[0] == gt_name].index.values
 
         if not pred_indx.size:
-            print("Prediktion für " + gt_name + " fehlt, nehme \"normal\" an.")
+            print("Prediction for " + gt_name + " fehlt, nehme \"normal\" an.")
             pred_class = "N"
         else:
             pred_indx = pred_indx[0]
